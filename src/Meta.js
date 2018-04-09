@@ -1,11 +1,15 @@
+import OpenGraph from 'set-open-graph'
+
 class Meta {
-  constructor({ title, titleTemplate, image } = {}) {
-    this.title = title
+  constructor({ titleTemplate, image } = {}) {
     this.titleTemplate = titleTemplate
+
     if (image) {
       this.image = image
-      this.imageUrl = image instanceof Array ? image[0].url : image
+      this.imageURL = image instanceof Array ? image[0].url : image
     }
+
+    this.openGraph = new OpenGraph()
   }
 
   set(meta, openGraph) {
@@ -13,34 +17,54 @@ class Meta {
     openGraph = Object.assign({}, openGraph)
     openGraph.og = Object.assign({}, openGraph.og)
 
-    if (!meta.title && openGraph.og.title) {
-      meta.title = openGraph.og.title
-    } else if (meta.title && !openGraph.og.title) {
+    if (meta.title && !openGraph.og.title) {
       openGraph.og.title = meta.title
+    } else if (!meta.title && openGraph.og.title) {
+      meta.title = openGraph.og.title
     }
 
-    if (!meta.title && this.title) {
-      meta.title = this.title
-    } else if (meta.title && this.titleTemplate) {
-      meta.title = meta.title.replace('%s', meta.title)
+    if (meta.title && (meta.titleTemplate || this.titleTemplate)) {
+      meta.title = (meta.titleTemplate || this.titleTemplate).replace('%s', meta.title)
     }
 
-    if (!meta.image && this.imageUrl) {
-      meta.image = this.imageUrl
+    if (meta.description && !openGraph.og.description) {
+      openGraph.og.description = meta.description
+    } else if (!meta.description && openGraph.og.description) {
+      meta.description = openGraph.og.description
     }
 
-    if (!openGraph.og.title && meta.title) openGraph.title = meta.title
-
-    if ((!openGraph.og.image || !openGraph.og.image.length) && meta.image) {
+    if (meta.image && !openGraph.og.image) {
       openGraph.og.image = [{ url: meta.image }]
+    } else if (!meta.image && openGraph.og.image) {
+      meta.image = openGraph.og.image[0].url
+    } else if (!meta.image && !openGraph.og.image && this.image) {
+      meta.image = this.imageURL
+      openGraph.og.image = this.image
     }
 
-    if (!openGraph.og.description) openGraph.og.description = meta.description
+    if (meta.canonicalURL && !openGraph.og.url) {
+      openGraph.og.url = meta.canonicalURL
+    } else if (!meta.canonicalURL && openGraph.og.url) {
+      meta.canonicalURL = openGraph.og.url
+    }
 
-    if (!openGraph.og.url && meta.canonical) openGraph.og.url = meta.canonical
+    this.openGraph.set(openGraph)
+    this._clear()
+    this._set(meta)
+  }
+
+  _set(meta) {
+    document.title = meta.title || ''
   }
 
   clear() {
+    this.openGraph.clear()
+    this._clear()
+  }
+
+  _clear() {
+    document.title = ''
+
     const els = document.querySelectorAll('meta[data-set-meta]')
     for (const el of els) {
       el.parentNode.removeChild(el)
