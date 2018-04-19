@@ -1,4 +1,4 @@
-import OpenGraph from 'set-open-graph'
+// import OpenGraph from 'set-open-graph'
 
 class Meta {
   constructor({ titleTemplate, image } = {}) {
@@ -9,13 +9,14 @@ class Meta {
       this.imageURL = image instanceof Array ? image[0].url : image
     }
 
-    this.openGraph = new OpenGraph()
+    // this.openGraph = new OpenGraph()
   }
 
   set(meta, openGraph) {
     meta = Object.assign({}, meta)
     openGraph = Object.assign({}, openGraph)
     openGraph.og = Object.assign({}, openGraph.og)
+    if (openGraph.article) openGraph.article = Object.assign({}, openGraph.article)
 
     if (meta.title && !openGraph.og.title) {
       openGraph.og.title = meta.title
@@ -27,19 +28,33 @@ class Meta {
       meta.title = (meta.titleTemplate || this.titleTemplate).replace('%s', meta.title)
     }
 
+    if (meta.lastModified && openGraph.article && !openGraph.article.modified_time) {
+      openGraph.article.modified_time = meta.lastModified
+    } else if (!meta.lastModified && openGraph.article && openGraph.article.modified_time) {
+      meta.lastModified = openGraph.article.modified_time
+    }
+
     if (meta.description && !openGraph.og.description) {
       openGraph.og.description = meta.description
     } else if (!meta.description && openGraph.og.description) {
       meta.description = openGraph.og.description
     }
 
-    if (meta.image && !openGraph.og.image) {
-      openGraph.og.image = [{ url: meta.image }]
-    } else if (!meta.image && openGraph.og.image) {
-      meta.image = openGraph.og.image[0].url
-    } else if (!meta.image && !openGraph.og.image && this.image) {
-      meta.image = this.imageURL
-      openGraph.og.image = this.image
+    if (!openGraph.og.image && (meta.image || this.image)) {
+      openGraph.og.image = meta.image ? [{ url: meta.image }] : this.image
+    }
+
+    if (meta.keywords) {
+      if (meta.keywords.constructor === String) meta.keywords = meta.keywords.split(/\s*,\s*/)
+      if (openGraph.article && !openGraph.article.tag) openGraph.article.tag = meta.keywords
+      else if (openGraph.video && !openGraph.video.tag) openGraph.video.tag = meta.keywords
+      else if (openGraph.book && !openGraph.book.tag) openGraph.book.tag = meta.keywords
+    } else {
+      const tag = openGraph.article && openGraph.article.tag
+        || openGraph.video && openGraph.video.tag
+        || openGraph.book && openGraph.book.tag
+
+      if (tag) meta.keywords = tag
     }
 
     if (meta.canonicalURL && !openGraph.og.url) {
@@ -48,17 +63,33 @@ class Meta {
       meta.canonicalURL = openGraph.og.url
     }
 
-    this.openGraph.set(openGraph)
+    // this.openGraph.set(openGraph)
     this._clear()
     this._set(meta)
   }
 
   _set(meta) {
     document.title = meta.title || ''
+
+    if (meta.lastModified) {
+      const date = new Date(meta.lastModified)
+      if (!isNaN(date.getTime())) {
+        insertElem('meta', { 'http-equiv': 'Last-Modified', content: date.toGMTString() })
+      }
+    }
+
+    if (meta.author) insertElem('meta', { name: 'author', content: meta.author })
+    if (meta.description) insertElem('meta', { name: 'description', content: meta.description })
+    if (meta.keywords) insertElem('meta', { name: 'keywords', content: meta.keywords.join() })
+    if (meta.canonicalURL) insertElem('link', { rel: 'canonical', href: meta.canonicalURL })
+
+    for (const attrs of [...meta.locales || [], ...meta.media || []]) {
+      insertElem('link', { rel: 'alternate', ...attrs })
+    }
   }
 
   clear() {
-    this.openGraph.clear()
+    // this.openGraph.clear()
     this._clear()
   }
 
@@ -70,6 +101,18 @@ class Meta {
       el.parentNode.removeChild(el)
     }
   }
+}
+
+function insertElem(tag, attrs) {
+  const el = document.createElement(tag)
+
+  el.setAttribute('data-set-meta', '')
+
+  for (const name in attrs) {
+    el.setAttribute(name, attrs[name])
+  }
+
+  document.querySelector('head').appendChild(el)
 }
 
 export default Meta

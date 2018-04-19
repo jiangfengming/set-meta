@@ -2,9 +2,9 @@
   "name": "set-meta",
   "version": "0.1.0-dev",
   "description": "Setting html meta",
-  "main": "dist/setMeta.js",
+  "main": "dist/Meta.js",
   "scripts": {
-    "build": "babel src -d dist"
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
@@ -21,11 +21,29 @@
   },
   "homepage": "https://github.com/fenivana/set-meta#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
     "eslint": "^4.19.1",
-    "eslint-config-enough": "^0.3.0"
+    "eslint-config-enough": "^0.3.0",
+    "rollup": "^0.58.1",
+    "rollup-plugin-babel": "^3.0.3"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "loose": true,
+          "modules": false
+        }
+      ],
+      "stage-2"
+    ],
+    "plugins": [
+      "external-helpers"
+    ]
   },
   "eslintConfig": {
     "extends": "enough",
