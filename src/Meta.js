@@ -1,15 +1,8 @@
-// import OpenGraph from 'set-open-graph'
+import openGraph from 'set-open-graph'
 
 class Meta {
-  constructor({ titleTemplate, image } = {}) {
+  constructor({ titleTemplate } = {}) {
     this.titleTemplate = titleTemplate
-
-    if (image) {
-      this.image = image
-      this.imageURL = image instanceof Array ? image[0].url : image
-    }
-
-    // this.openGraph = new OpenGraph()
   }
 
   set(meta, openGraph) {
@@ -40,8 +33,8 @@ class Meta {
       meta.description = openGraph.og.description
     }
 
-    if (!openGraph.og.image && (meta.image || this.image)) {
-      openGraph.og.image = meta.image ? [{ url: meta.image }] : this.image
+    if (!openGraph.og.image && meta.image) {
+      openGraph.og.image = meta.image
     }
 
     if (meta.keywords) {
@@ -63,7 +56,7 @@ class Meta {
       meta.canonicalURL = openGraph.og.url
     }
 
-    // this.openGraph.set(openGraph)
+    openGraph.set(openGraph)
     this._clear()
     this._set(meta)
   }
@@ -89,7 +82,7 @@ class Meta {
   }
 
   clear() {
-    // this.openGraph.clear()
+    openGraph.clear()
     this._clear()
   }
 

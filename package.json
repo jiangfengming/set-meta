@@ -4,7 +4,7 @@
   "description": "Setting html meta",
   "main": "dist/Meta.js",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,9 @@
     "eslint": "^4.19.1",
     "eslint-config-enough": "^0.3.0",
     "rollup": "^0.58.1",
-    "rollup-plugin-babel": "^3.0.3"
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-node-resolve": "^3.3.0"
   },
   "babel": {
     "presets": [
