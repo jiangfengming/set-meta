@@ -4,7 +4,7 @@
   "description": "Setting html meta",
   "main": "dist/Meta.js",
   "scripts": {
-    "build": "rollup -c rollup.config.js"
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
