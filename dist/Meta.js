@@ -14,132 +14,160 @@
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
 	}
 
-	var openGraph = createCommonjsModule(function (module, exports) {
+	var OpenGraph = createCommonjsModule(function (module, exports) {
 	(function (global, factory) {
 	  if (typeof undefined === "function" && undefined.amd) {
-	    undefined(['exports'], factory);
+	    undefined(['module', 'exports'], factory);
 	  } else {
-	    factory(exports);
+	    factory(module, exports);
 	  }
-	})(commonjsGlobal, function (exports) {
+	})(commonjsGlobal, function (module, exports) {
 
 	  exports.__esModule = true;
-	  exports.set = set;
-	  exports.clear = clear;
+
+	  function _classCallCheck(instance, Constructor) {
+	    if (!(instance instanceof Constructor)) {
+	      throw new TypeError("Cannot call a class as a function");
+	    }
+	  }
+
 	  var trimLastPart = ['og:image:url', 'og:video:url', 'og:audio:url', 'og:locale:current', 'music:album:url', 'music:song:url', 'video:actor:url'];
 
-	  function parse(obj) {
-	    var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+	  var OpenGraph = function () {
+	    function OpenGraph(properties, customNS) {
+	      _classCallCheck(this, OpenGraph);
 
-	    var result = [];
+	      this.properties = properties;
+	      this.customNS = customNS;
+	    }
 
-	    for (var k in obj) {
-	      var v = obj[k];
-	      if (!v) continue;
+	    OpenGraph.prototype.set = function set(properties, customNS) {
+	      this.clear();
 
-	      var property = prefix ? prefix + ':' + k : k;
-	      if (trimLastPart.includes(property)) property = prefix;
+	      var ns = ['og: http://ogp.me/ns#'];
+	      if (properties.fb) ns.push('fb: http://ogp.me/ns/fb#');
 
-	      if (v.constructor === Object) {
-	        result = result.concat(parse(v, property));
-	      } else if (v.constructor === Array) {
-	        for (var _iterator = v, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-	          var _ref;
+	      var type = properties.og && properties.og.type;
+	      if (type && !type.includes(':')) {
+	        type = type.split('.')[0];
+	        ns.push(type + ': http://ogp.me/ns/' + type + '#');
+	      }
 
-	          if (_isArray) {
-	            if (_i >= _iterator.length) break;
-	            _ref = _iterator[_i++];
-	          } else {
-	            _i = _iterator.next();
-	            if (_i.done) break;
-	            _ref = _i.value;
-	          }
+	      if (customNS) ns = ns.concat(customNS);else if (this.customNS) ns = ns.concat(this.customNS);
 
-	          var item = _ref;
+	      document.head.setAttribute('prefix', ns.join(' '));
 
-	          if (item.constructor === Object) {
-	            result = result.concat(parse(item, property));
-	          } else {
-	            result.push({ property: property, item: item });
-	          }
+	      var meta = this.parse(properties);
+
+	      if (this.properties) {
+	        var exists = meta.map(function (m) {
+	          return m.property;
+	        });
+	        var defaultMeta = this.parse(this.properties).filter(function (m) {
+	          return !exists.includes(m.property);
+	        });
+	        if (defaultMeta.length) meta = meta.concat(defaultMeta);
+	      }
+
+	      for (var _iterator = meta, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+	        var _ref;
+
+	        if (_isArray) {
+	          if (_i >= _iterator.length) break;
+	          _ref = _iterator[_i++];
+	        } else {
+	          _i = _iterator.next();
+	          if (_i.done) break;
+	          _ref = _i.value;
 	        }
-	      } else {
-	        result.push({ property: property, v: v });
+
+	        var m = _ref;
+	        this.insertElem(m);
 	      }
-	    }
+	    };
 
-	    return result;
-	  }
+	    OpenGraph.prototype.clear = function clear() {
+	      document.head.removeAttribute('prefix');
+	      var els = document.head.querySelectorAll('meta[property]');
+	      for (var _iterator2 = els, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+	        var _ref2;
 
-	  function insertElem(attrs) {
-	    var meta = document.createElement('meta');
+	        if (_isArray2) {
+	          if (_i2 >= _iterator2.length) break;
+	          _ref2 = _iterator2[_i2++];
+	        } else {
+	          _i2 = _iterator2.next();
+	          if (_i2.done) break;
+	          _ref2 = _i2.value;
+	        }
 
-	    for (var name in attrs) {
-	      meta.setAttribute(name, attrs[name]);
-	    }
+	        var el = _ref2;
+	        document.head.removeChild(el);
+	      }
+	    };
 
-	    document.head.appendChild(meta);
-	  }
+	    OpenGraph.prototype.parse = function parse(obj) {
+	      var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
-	  function set(openGraph, namespace) {
-	    clear();
+	      var result = [];
 
-	    var ns = ['og: http://ogp.me/ns#'];
-	    if (openGraph.fb) ns.push('fb: http://ogp.me/ns/fb#');
+	      for (var k in obj) {
+	        var v = obj[k];
+	        if (!v) continue;
 
-	    var type = openGraph.og && openGraph.og.type;
-	    if (type && !type.includes(':')) {
-	      type = type.split('.')[0];
-	      ns.push(type + ': http://ogp.me/ns/' + type + '#');
-	    }
+	        var property = prefix ? prefix + ':' + k : k;
+	        if (trimLastPart.includes(property)) property = prefix;
 
-	    if (namespace) ns = ns.concat(namespace);
+	        if (v.constructor === Object) {
+	          result = result.concat(this.parse(v, property));
+	        } else if (v.constructor === Array) {
+	          for (var _iterator3 = v, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+	            var _ref3;
 
-	    document.head.setAttribute('prefix', ns.join(' '));
+	            if (_isArray3) {
+	              if (_i3 >= _iterator3.length) break;
+	              _ref3 = _iterator3[_i3++];
+	            } else {
+	              _i3 = _iterator3.next();
+	              if (_i3.done) break;
+	              _ref3 = _i3.value;
+	            }
 
-	    var meta = parse(openGraph);
-	    for (var _iterator2 = meta, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
-	      var _ref2;
+	            var item = _ref3;
 
-	      if (_isArray2) {
-	        if (_i2 >= _iterator2.length) break;
-	        _ref2 = _iterator2[_i2++];
-	      } else {
-	        _i2 = _iterator2.next();
-	        if (_i2.done) break;
-	        _ref2 = _i2.value;
+	            if (item.constructor === Object) {
+	              result = result.concat(this.parse(item, property));
+	            } else {
+	              result.push({ property: property, item: item });
+	            }
+	          }
+	        } else {
+	          result.push({ property: property, v: v });
+	        }
 	      }
 
-	      var m = _ref2;
-	      insertElem(m);
-	    }
-	  }
+	      return result;
+	    };
 
-	  function clear() {
-	    document.head.removeAttribute('prefix');
-	    var els = document.head.querySelectorAll('meta[property]');
-	    for (var _iterator3 = els, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
-	      var _ref3;
+	    OpenGraph.prototype.insertElem = function insertElem(attrs) {
+	      var meta = document.createElement('meta');
 
-	      if (_isArray3) {
-	        if (_i3 >= _iterator3.length) break;
-	        _ref3 = _iterator3[_i3++];
-	      } else {
-	        _i3 = _iterator3.next();
-	        if (_i3.done) break;
-	        _ref3 = _i3.value;
+	      for (var name in attrs) {
+	        meta.setAttribute(name, attrs[name]);
 	      }
 
-	      var el = _ref3;
-	      document.head.removeChild(el);
-	    }
-	  }
+	      document.head.appendChild(meta);
+	    };
 
-	  exports.default = { set: set, clear: clear };
+	    return OpenGraph;
+	  }();
+
+	  exports.default = OpenGraph;
+	  module.exports = exports['default'];
 	});
 	});
 
-	var openGraphUtil = unwrapExports(openGraph);
+	var OpenGraph$1 = unwrapExports(OpenGraph);
 
 	var classCallCheck = function (instance, Constructor) {
 	  if (!(instance instanceof Constructor)) {
@@ -163,62 +191,61 @@
 
 	var Meta = function () {
 	  function Meta() {
-	    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-	        titleTemplate = _ref.titleTemplate;
-
+	    var defaults$$1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	    classCallCheck(this, Meta);
 
-	    this.titleTemplate = titleTemplate;
+	    this.titleTemplate = defaults$$1.titleTemplate;
+	    this.openGraph = new OpenGraph$1(defaults$$1.openGraph, defaults$$1.customNS);
 	  }
 
-	  Meta.prototype.set = function set$$1(meta, openGraph$$1) {
+	  Meta.prototype.set = function set$$1(meta, openGraph, customNS) {
 	    meta = Object.assign({}, meta);
-	    openGraph$$1 = Object.assign({}, openGraph$$1);
-	    openGraph$$1.og = Object.assign({}, openGraph$$1.og);
-	    if (openGraph$$1.article) openGraph$$1.article = Object.assign({}, openGraph$$1.article);
+	    openGraph = Object.assign({}, openGraph);
+	    openGraph.og = Object.assign({}, openGraph.og);
+	    if (openGraph.article) openGraph.article = Object.assign({}, openGraph.article);
 
-	    if (meta.title && !openGraph$$1.og.title) {
-	      openGraph$$1.og.title = meta.title;
-	    } else if (!meta.title && openGraph$$1.og.title) {
-	      meta.title = openGraph$$1.og.title;
+	    if (meta.title && !openGraph.og.title) {
+	      openGraph.og.title = meta.title;
+	    } else if (!meta.title && openGraph.og.title) {
+	      meta.title = openGraph.og.title;
 	    }
 
 	    if (meta.title && (meta.titleTemplate || this.titleTemplate)) {
 	      meta.title = (meta.titleTemplate || this.titleTemplate).replace('%s', meta.title);
 	    }
 
-	    if (meta.lastModified && openGraph$$1.article && !openGraph$$1.article.modified_time) {
-	      openGraph$$1.article.modified_time = meta.lastModified;
-	    } else if (!meta.lastModified && openGraph$$1.article && openGraph$$1.article.modified_time) {
-	      meta.lastModified = openGraph$$1.article.modified_time;
+	    if (meta.lastModified && openGraph.article && !openGraph.article.modified_time) {
+	      openGraph.article.modified_time = meta.lastModified;
+	    } else if (!meta.lastModified && openGraph.article && openGraph.article.modified_time) {
+	      meta.lastModified = openGraph.article.modified_time;
 	    }
 
-	    if (meta.description && !openGraph$$1.og.description) {
-	      openGraph$$1.og.description = meta.description;
-	    } else if (!meta.description && openGraph$$1.og.description) {
-	      meta.description = openGraph$$1.og.description;
+	    if (meta.description && !openGraph.og.description) {
+	      openGraph.og.description = meta.description;
+	    } else if (!meta.description && openGraph.og.description) {
+	      meta.description = openGraph.og.description;
 	    }
 
-	    if (!openGraph$$1.og.image && meta.image) {
-	      openGraph$$1.og.image = meta.image;
+	    if (!openGraph.og.image && meta.image) {
+	      openGraph.og.image = meta.image;
 	    }
 
 	    if (meta.keywords) {
 	      if (meta.keywords.constructor === String) meta.keywords = meta.keywords.split(/\s*,\s*/);
-	      if (openGraph$$1.article && !openGraph$$1.article.tag) openGraph$$1.article.tag = meta.keywords;else if (openGraph$$1.video && !openGraph$$1.video.tag) openGraph$$1.video.tag = meta.keywords;else if (openGraph$$1.book && !openGraph$$1.book.tag) openGraph$$1.book.tag = meta.keywords;
+	      if (openGraph.article && !openGraph.article.tag) openGraph.article.tag = meta.keywords;else if (openGraph.video && !openGraph.video.tag) openGraph.video.tag = meta.keywords;else if (openGraph.book && !openGraph.book.tag) openGraph.book.tag = meta.keywords;
 	    } else {
-	      var tag = openGraph$$1.article && openGraph$$1.article.tag || openGraph$$1.video && openGraph$$1.video.tag || openGraph$$1.book && openGraph$$1.book.tag;
+	      var tag = openGraph.article && openGraph.article.tag || openGraph.video && openGraph.video.tag || openGraph.book && openGraph.book.tag;
 
 	      if (tag) meta.keywords = tag;
 	    }
 
-	    if (meta.canonicalURL && !openGraph$$1.og.url) {
-	      openGraph$$1.og.url = meta.canonicalURL;
-	    } else if (!meta.canonicalURL && openGraph$$1.og.url) {
-	      meta.canonicalURL = openGraph$$1.og.url;
+	    if (meta.canonicalURL && !openGraph.og.url) {
+	      openGraph.og.url = meta.canonicalURL;
+	    } else if (!meta.canonicalURL && openGraph.og.url) {
+	      meta.canonicalURL = openGraph.og.url;
 	    }
 
-	    openGraphUtil.set(openGraph$$1);
+	    this.openGraph.set(openGraph, customNS);
 	    this._clear();
 	    this._set(meta);
 	  };
@@ -247,7 +274,7 @@
 	  };
 
 	  Meta.prototype.clear = function clear() {
-	    openGraphUtil.clear();
+	    this.openGraph.clear();
 	    this._clear();
 	  };
 
@@ -256,18 +283,18 @@
 
 	    var els = document.querySelectorAll('meta[data-set-meta]');
 	    for (var _iterator = els, _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-	      var _ref2;
+	      var _ref;
 
 	      if (_isArray) {
 	        if (_i2 >= _iterator.length) break;
-	        _ref2 = _iterator[_i2++];
+	        _ref = _iterator[_i2++];
 	      } else {
 	        _i2 = _iterator.next();
 	        if (_i2.done) break;
-	        _ref2 = _i2.value;
+	        _ref = _i2.value;
 	      }
 
-	      var el = _ref2;
+	      var el = _ref;
 
 	      el.parentNode.removeChild(el);
 	    }

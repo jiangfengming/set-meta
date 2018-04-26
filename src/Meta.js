@@ -1,11 +1,12 @@
-import openGraphUtil from 'set-open-graph'
+import OpenGraph from 'set-open-graph'
 
 class Meta {
-  constructor({ titleTemplate } = {}) {
-    this.titleTemplate = titleTemplate
+  constructor(defaults = {}) {
+    this.titleTemplate = defaults.titleTemplate
+    this.openGraph = new OpenGraph(defaults.openGraph, defaults.customNS)
   }
 
-  set(meta, openGraph) {
+  set(meta, openGraph, customNS) {
     meta = Object.assign({}, meta)
     openGraph = Object.assign({}, openGraph)
     openGraph.og = Object.assign({}, openGraph.og)
@@ -56,7 +57,7 @@ class Meta {
       meta.canonicalURL = openGraph.og.url
     }
 
-    openGraphUtil.set(openGraph)
+    this.openGraph.set(openGraph, customNS)
     this._clear()
     this._set(meta)
   }
@@ -82,7 +83,7 @@ class Meta {
   }
 
   clear() {
-    openGraphUtil.clear()
+    this.openGraph.clear()
     this._clear()
   }
 

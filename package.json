@@ -1,6 +1,6 @@
 {
   "name": "set-meta",
-  "version": "0.1.0-dev",
+  "version": "0.1.0",
   "description": "Setting html meta",
   "main": "dist/Meta.js",
   "scripts": {
@@ -52,5 +52,8 @@
     "env": {
       "browser": true
     }
+  },
+  "dependencies": {
+    "set-open-graph": "^0.1.0"
   }
 }

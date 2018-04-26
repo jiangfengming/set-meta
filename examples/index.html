@@ -6,152 +6,75 @@
 <script>
 const meta = new Meta({
   titleTemplate: '%s - Company Name',
-  image: 'https://www.example.com/favicon.png'
+  openGraph: {
+    og: {
+      site_name: 'Company Name'
+    }
+  }
 })
 
 meta.set({
-  "title": "Separate URLs  |  Search\n       |  Google Developers",
-  "lastModified": null,
-  "author": null,
-  "description": null,
-  "image": "https://developers.google.com/_static/14b311b77e/images/share/devsite-google-blue.png",
-  "keywords": null,
-  "canonicalURL": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls",
-  "locales": [
+  title: 'Separate URLs',
+  lastModified: 'Sun, 23 Jul 2017 13:30:37 GMT',
+  author: 'The Author Name',
+  description: 'In this configuration, each desktop URL has an equivalent different URL serving mobile-optimized content.',
+  image: 'https://developers.google.com/_static/14b311b77e/images/share/devsite-google-blue.png',
+  keywords: ['seo', 'mobile'],
+  canonicalURL: 'https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls',
+  locales: [
     {
-      "hreflang": "en",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls"
+      hreflang: 'en',
+      href: 'https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls'
     },
     {
-      "hreflang": "ar",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=ar"
+      hreflang: 'ar',
+      href: 'https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=ar'
     },
     {
-      "hreflang": "de",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=de"
-    },
-    {
-      "hreflang": "es",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=es"
-    },
-    {
-      "hreflang": "fr",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=fr"
-    },
-    {
-      "hreflang": "id",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=id"
-    },
-    {
-      "hreflang": "it",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=it"
-    },
-    {
-      "hreflang": "ja",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=ja"
-    },
-    {
-      "hreflang": "ko",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=ko"
-    },
-    {
-      "hreflang": "nl",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=nl"
-    },
-    {
-      "hreflang": "pl",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=pl"
-    },
-    {
-      "hreflang": "pt-br",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=pt-br"
-    },
-    {
-      "hreflang": "ru",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=ru"
-    },
-    {
-      "hreflang": "tr",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=tr"
-    },
-    {
-      "hreflang": "zh-Hans",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=zh-cn"
-    },
-    {
-      "hreflang": "zh-Hant",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls?hl=zh-tw"
-    },
-    {
-      "hreflang": "en-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls"
-    },
-    {
-      "hreflang": "ar-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=ar"
-    },
-    {
-      "hreflang": "de-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=de"
-    },
-    {
-      "hreflang": "es-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=es"
-    },
-    {
-      "hreflang": "fr-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=fr"
-    },
-    {
-      "hreflang": "id-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=id"
-    },
-    {
-      "hreflang": "it-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=it"
-    },
-    {
-      "hreflang": "ja-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=ja"
-    },
-    {
-      "hreflang": "ko-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=ko"
-    },
-    {
-      "hreflang": "nl-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=nl"
-    },
-    {
-      "hreflang": "pl-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=pl"
-    },
-    {
-      "hreflang": "pt-br-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=pt-br"
-    },
-    {
-      "hreflang": "ru-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=ru"
-    },
-    {
-      "hreflang": "tr-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=tr"
-    },
-    {
-      "hreflang": "zh-Hans-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=zh-cn"
-    },
-    {
-      "hreflang": "zh-Hant-cn",
-      "href": "https://developers.google.cn/search/mobile-sites/mobile-seo/separate-urls?hl=zh-tw"
-    },
-    {
-      "hreflang": "x-default",
-      "href": "https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls"
+      hreflang: 'x-default',
+      href: 'https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls'
     }
   ],
-  "media": null
+  media: [
+    {
+      media: 'only screen and (max-width: 640px)',
+      href: 'http://m.example.com/page-1'
+    }
+  ]
+}, {
+  og: {
+    type: 'video.movie',
+    locale: {
+      current: 'en_US',
+      alternate: [
+        'zh_CN',
+        'ja_JP'
+      ]
+    },
+  },
+
+  video: {
+    director: [
+      'http://examples.opengraphprotocol.us/profile.html',
+      'http://examples.opengraphprotocol.us/profile2.html'
+    ],
+    actor: [
+      {
+        url: 'http://examples.opengraphprotocol.us/profile.html',
+        role: 'Role in Move'
+      }
+    ],
+    writer: [
+      'http://examples.opengraphprotocol.us/profile.html'
+    ],
+    series: 'http://www.imdb.com/title/tt1520211/',
+    release_date: '1895-12-28',
+    duration: '50',
+    tag: [
+      'La Ciotat',
+      'train'
+    ]
+  }
 })
 </script>
 </head>
