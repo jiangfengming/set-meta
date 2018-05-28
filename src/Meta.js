@@ -22,12 +22,6 @@ class Meta {
       meta.title = (meta.titleTemplate || this.titleTemplate).replace('%s', meta.title)
     }
 
-    if (meta.lastModified && openGraph.article && !openGraph.article.modified_time) {
-      openGraph.article.modified_time = meta.lastModified
-    } else if (!meta.lastModified && openGraph.article && openGraph.article.modified_time) {
-      meta.lastModified = openGraph.article.modified_time
-    }
-
     if (meta.description && !openGraph.og.description) {
       openGraph.og.description = meta.description
     } else if (!meta.description && openGraph.og.description) {
@@ -39,10 +33,21 @@ class Meta {
     }
 
     if (meta.keywords) {
-      if (meta.keywords.constructor === String) meta.keywords = meta.keywords.split(/\s*,\s*/)
-      if (openGraph.article && !openGraph.article.tag) openGraph.article.tag = meta.keywords
-      else if (openGraph.video && !openGraph.video.tag) openGraph.video.tag = meta.keywords
-      else if (openGraph.book && !openGraph.book.tag) openGraph.book.tag = meta.keywords
+      if (meta.keywords.constructor === String) {
+        meta.keywords = meta.keywords.split(/\s*,\s*/)
+      }
+
+      if (['article', 'video', 'book'].includes(openGraph.og.type) && !openGraph[openGraph.og.type]) {
+        openGraph[openGraph.og.type] = {
+          tag: meta.keywords
+        }
+      } else if (openGraph.article && !openGraph.article.tag) {
+        openGraph.article.tag = meta.keywords
+      } else if (openGraph.video && !openGraph.video.tag) {
+        openGraph.video.tag = meta.keywords
+      } else if (openGraph.book && !openGraph.book.tag) {
+        openGraph.book.tag = meta.keywords
+      }
     } else {
       const tag = openGraph.article && openGraph.article.tag
         || openGraph.video && openGraph.video.tag
@@ -63,19 +68,18 @@ class Meta {
   }
 
   _set(meta) {
-    document.title = meta.title || ''
-
-    if (meta.lastModified) {
-      const date = new Date(meta.lastModified)
-      if (!isNaN(date.getTime())) {
-        insertElem('meta', { 'http-equiv': 'Last-Modified', content: date.toGMTString() })
-      }
-    }
+    if (meta.title != null) document.title = meta.title
 
     if (meta.author) insertElem('meta', { name: 'author', content: meta.author })
     if (meta.description) insertElem('meta', { name: 'description', content: meta.description })
     if (meta.keywords) insertElem('meta', { name: 'keywords', content: meta.keywords.join() })
     if (meta.canonicalURL) insertElem('link', { rel: 'canonical', href: meta.canonicalURL })
+
+    if (meta.extraMeta) {
+      for (const attrs of meta.extraMeta) {
+        insertElem('meta', attrs)
+      }
+    }
 
     for (const attrs of [...meta.locales || [], ...meta.media || []]) {
       insertElem('link', { rel: 'alternate', ...attrs })

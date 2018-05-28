@@ -17,13 +17,23 @@ const meta = new Meta({
 })
 
 meta.set({
+  // <title>
   title: 'Separate URLs',
-  lastModified: 'Sun, 23 Jul 2017 13:30:37 GMT',
+
+  // <meta name="author" content="...">
   author: 'The Author Name',
   description: 'In this configuration, each desktop URL has an equivalent different URL serving mobile-optimized content.',
+
+  // shortcut of openGraph.og.image
   image: 'https://developers.google.com/_static/14b311b77e/images/share/devsite-google-blue.png',
+
+  // <meta name="keywords" content="...">
   keywords: ['seo', 'mobile'],
+
+  // <link rel="canonical" content="...">
   canonicalURL: 'https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls',
+
+  // <link rel="alternate" hreflang="..." href="...">
   locales: [
     {
       hreflang: 'en',
@@ -38,13 +48,25 @@ meta.set({
       href: 'https://developers.google.com/search/mobile-sites/mobile-seo/separate-urls'
     }
   ],
+
+  // <link rel="alternate" media="..." href="...">
   media: [
     {
       media: 'only screen and (max-width: 640px)',
       href: 'http://m.example.com/page-1'
     }
+  ],
+
+  // extra <meta> tags
+  extraMeta: [
+    { 'http-equiv': 'Status', content: '200' },
+    { 'http-equiv': 'Last-Modified', content: 'Sun, 23 Jul 2017 13:30:37 GMT' }
   ]
-}, {
+},
+
+// Open Graph
+// See https://github.com/fenivana/set-open-graph
+{
   og: {
     type: 'video.movie',
     locale: {
