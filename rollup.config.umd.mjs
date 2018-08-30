@@ -3,7 +3,7 @@ import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 
 export default {
-  input: 'src/Meta.js',
+  input: 'src/index.mjs',
   output: {
     format: 'umd',
     name: 'Meta',
@@ -13,6 +13,5 @@ export default {
     resolve(),
     commonjs(),
     babel({ exclude: 'node_modules/**' })
-  ],
-  preserveSymlinks: true
+  ]
 }

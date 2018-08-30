@@ -18,7 +18,7 @@ class Meta {
       meta.title = openGraph.og.title
     }
 
-    if (meta.title && (meta.titleTemplate || this.titleTemplate)) {
+    if (meta.title && meta.titleTemplate !== null && (meta.titleTemplate || this.titleTemplate)) {
       meta.title = (meta.titleTemplate || this.titleTemplate).replace('%s', meta.title)
     }
 
