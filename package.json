@@ -1,6 +1,6 @@
 {
   "name": "set-meta",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Setting html meta",
   "main": "dist/Meta.js",
   "module": "dist/Meta.mjs",
