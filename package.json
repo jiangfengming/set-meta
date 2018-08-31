@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/kasha-io/set-meta#readme",
   "dependencies": {
-    "set-open-graph": "^0.1.2"
+    "set-open-graph": "^0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

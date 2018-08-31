@@ -1542,9 +1542,9 @@ semver@^5.3.0, semver@^5.4.1, semver@^5.5.0:
   version "5.5.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.1.tgz#7dfdd8814bdb7cabc7be0fb1d734cfb66c940477"
 
-set-open-graph@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/set-open-graph/-/set-open-graph-0.1.2.tgz#0aa82d17d9a78f309d2ca3942af5f8c6db594893"
+set-open-graph@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/set-open-graph/-/set-open-graph-0.2.0.tgz#2ffb7dd82b516e498e590ceab1a1cd2335521747"
 
 shebang-command@^1.2.0:
   version "1.2.0"
