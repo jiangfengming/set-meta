@@ -8,6 +8,7 @@ Setting html meta.
 import Meta from 'set-meta'
 
 const meta = new Meta({
+  lang: 'en',
   titleTemplate: '%s - Company Name',
   openGraph: {
     og: {
@@ -17,6 +18,9 @@ const meta = new Meta({
 })
 
 meta.set({
+  // <html lang="...">
+  lang: 'en',
+
   // <title>
   title: 'Separate URLs',
 
@@ -65,7 +69,7 @@ meta.set({
 },
 
 // Open Graph
-// See https://github.com/fenivana/set-open-graph
+// See https://github.com/kasha-io/set-open-graph
 {
   og: {
     type: 'video.movie',
@@ -105,25 +109,28 @@ meta.set({
 
 ## APIs
 
-### new Meta({ titleTemplate, openGraph, customNS })
+### new Meta({ lang, titleTemplate, openGraph, customNS })
 
 Creating an instance.
 
-Params:
-
-`titleTemplate`: Template of document title. e.g., `'%s - Company Name'` if you set the title to `'About'`, the document title would be `'About - Company Name'`.  
-`openGraph`: Default open graph properties. See [set-open-graph](https://github.com/fenivana/set-open-graph)  
+Params:  
+`lang`: Default `lang` attribute of `<html>`.  
+`titleTemplate`: Template of document title. e.g., `'%s - Company Name'`, if you set the title to `'About'`, the document title would be `'About - Company Name'`.  
+`openGraph`: Default open graph properties. See [set-open-graph](https://github.com/kasha-io/set-open-graph)  
 `customNS`: Default custom namespace of open graph.
+
+You can later change default options through properties:
+* this.lang
+* this.titleTamplate
+* this.openGraph (OpenGraph object, see [set-open-graph](https://github.com/kasha-io/set-open-graph))
 
 ### meta.set(meta, openGraph, customNS)
 
 Setting the document `<meta>` and `<link>`.
 
-Params:
-
+Params:  
 `meta`: Meta properties. See usage example for supported meta.  
-`openGraph` and `customNS`: See [set-open-graph](https://github.com/fenivana/set-open-graph)
-
+`openGraph` and `customNS`: See [set-open-graph](https://github.com/kasha-io/set-open-graph)
 
 ### meta.clear()
 

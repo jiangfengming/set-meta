@@ -2,6 +2,7 @@ import OpenGraph from 'set-open-graph'
 
 class Meta {
   constructor(defaults = {}) {
+    this.lang = defaults.lang
     this.titleTemplate = defaults.titleTemplate
     this.openGraph = new OpenGraph(defaults.openGraph, defaults.customNS)
   }
@@ -11,6 +12,10 @@ class Meta {
     openGraph = Object.assign({}, openGraph)
     openGraph.og = Object.assign({}, openGraph.og)
     if (openGraph.article) openGraph.article = Object.assign({}, openGraph.article)
+
+    if (!meta.lang && this.lang) {
+      meta.lang = this.lang
+    }
 
     if (meta.title && !openGraph.og.title) {
       openGraph.og.title = meta.title
@@ -68,6 +73,7 @@ class Meta {
   }
 
   _set(meta) {
+    if (meta.lang) document.documentElement.lang = meta.lang
     if (meta.title != null) document.title = meta.title
 
     if (meta.author) insertElem('meta', { name: 'author', content: meta.author })
@@ -92,6 +98,7 @@ class Meta {
   }
 
   _clear() {
+    document.documentElement.lang = ''
     document.title = ''
 
     const els = document.querySelectorAll('meta[data-set-meta]')

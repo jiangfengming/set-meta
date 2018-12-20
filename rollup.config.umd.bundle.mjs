@@ -6,11 +6,10 @@ export default {
   output: {
     format: 'umd',
     name: 'Meta',
-    file: 'dist/Meta.js'
+    file: 'dist/Meta.bundle.js'
   },
   plugins: [
     resolve(),
     babel({ exclude: 'node_modules/**' })
-  ],
-  external: ['set-open-graph']
+  ]
 }

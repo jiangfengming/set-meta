@@ -10,5 +10,6 @@ export default {
   plugins: [
     resolve(),
     babel({ exclude: 'node_modules/**' })
-  ]
+  ],
+  external: ['set-open-graph']
 }
