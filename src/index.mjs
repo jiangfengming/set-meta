@@ -101,7 +101,7 @@ class Meta {
     document.documentElement.lang = ''
     document.title = ''
 
-    const els = document.querySelectorAll('meta[data-set-meta]')
+    const els = document.head.querySelectorAll('[data-set-meta]')
     for (const el of els) {
       el.parentNode.removeChild(el)
     }

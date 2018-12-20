@@ -160,7 +160,7 @@
     _proto._clear = function _clear() {
       document.documentElement.lang = '';
       document.title = '';
-      var els = document.querySelectorAll('meta[data-set-meta]');
+      var els = document.head.querySelectorAll('[data-set-meta]');
 
       for (var _iterator2 = els, _isArray2 = Array.isArray(_iterator2), _i3 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
         var _ref2;
