@@ -3,14 +3,14 @@ import resolve from 'rollup-plugin-node-resolve'
 
 export default {
   input: 'src/index.mjs',
+
   output: {
-    format: 'umd',
-    name: 'Meta',
-    file: 'dist/Meta.js'
+    format: 'esm',
+    file: 'dist/Meta.bundle.mjs'
   },
+
   plugins: [
     resolve(),
-    babel({ exclude: 'node_modules/**' })
-  ],
-  external: ['set-open-graph']
+    babel()
+  ]
 }

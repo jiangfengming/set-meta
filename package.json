@@ -2,9 +2,9 @@
   "name": "set-meta",
   "version": "0.3.1",
   "description": "Setting html meta",
-  "main": "dist/Meta",
+  "main": "dist/Meta.mjs",
   "scripts": {
-    "build": "rollup -c rollup.config.esm.mjs && rollup -c rollup.config.umd.mjs && rollup -c rollup.config.umd.bundle.mjs"
+    "build": "rollup -c rollup.config.esm.js && rollup -c rollup.config.esm.bundle.js"
   },
   "repository": {
     "type": "git",
@@ -24,14 +24,13 @@
     "set-open-graph": "^0.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.10.0",
-    "eslint-config-enough": "^0.3.4",
-    "rollup": "^0.68.1",
-    "rollup-plugin-babel": "^4.1.0",
-    "rollup-plugin-node-resolve": "^4.0.0"
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "eslint": "^5.16.0",
+    "eslint-config-enough": "^0.3.5",
+    "rollup": "^1.15.6",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-node-resolve": "^5.0.3"
   },
   "babel": {
     "presets": [

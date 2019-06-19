@@ -11,7 +11,10 @@ class Meta {
     meta = Object.assign({}, meta)
     openGraph = Object.assign({}, openGraph)
     openGraph.og = Object.assign({}, openGraph.og)
-    if (openGraph.article) openGraph.article = Object.assign({}, openGraph.article)
+
+    if (openGraph.article) {
+      openGraph.article = Object.assign({}, openGraph.article)
+    }
 
     if (!meta.lang && this.lang) {
       meta.lang = this.lang
@@ -58,7 +61,9 @@ class Meta {
         || openGraph.video && openGraph.video.tag
         || openGraph.book && openGraph.book.tag
 
-      if (tag) meta.keywords = tag
+      if (tag) {
+        meta.keywords = tag
+      }
     }
 
     if (meta.canonicalURL && !openGraph.og.url) {
@@ -73,23 +78,38 @@ class Meta {
   }
 
   _set(meta) {
-    if (meta.lang) document.documentElement.lang = meta.lang
-    if (meta.title != null) document.title = meta.title
+    if (meta.lang) {
+      document.documentElement.lang = meta.lang
+    }
 
-    if (meta.author) insertElem('meta', { name: 'author', content: meta.author })
-    if (meta.description) insertElem('meta', { name: 'description', content: meta.description })
-    if (meta.keywords) insertElem('meta', { name: 'keywords', content: meta.keywords.join() })
-    if (meta.canonicalURL) insertElem('link', { rel: 'canonical', href: meta.canonicalURL })
+    if (meta.title != null) {
+      document.title = meta.title
+    }
+
+    if (meta.author) {
+      insertElem('meta', { name: 'author', content: meta.author })
+    }
+
+    if (meta.description) {
+      insertElem('meta', { name: 'description', content: meta.description })
+    }
+
+    if (meta.keywords) {
+      insertElem('meta', { name: 'keywords', content: meta.keywords.join() })
+    }
+
+    if (meta.canonicalURL) {
+      insertElem('link', { rel: 'canonical', href: meta.canonicalURL })
+    }
 
     if (meta.extraMeta) {
-      for (const attrs of meta.extraMeta) {
-        insertElem('meta', attrs)
-      }
+      meta.extraMeta.forEach(attrs => insertElem('meta', attrs))
     }
 
-    for (const attrs of [...meta.locales || [], ...meta.media || []]) {
-      insertElem('link', { rel: 'alternate', ...attrs })
-    }
+    (meta.locales || []).concat(meta.media || [])
+      .forEach(attrs =>
+        insertElem('link', Object.assign({ rel: 'alternate' }, attrs))
+      )
   }
 
   clear() {
@@ -98,13 +118,9 @@ class Meta {
   }
 
   _clear() {
-    document.documentElement.lang = ''
     document.title = ''
-
     const els = document.head.querySelectorAll('[data-set-meta]')
-    for (const el of els) {
-      el.parentNode.removeChild(el)
-    }
+    els.forEach(el => el.parentNode.removeChild(el))
   }
 }
 
