@@ -2,9 +2,9 @@
   "name": "set-meta",
   "version": "0.4.0",
   "description": "Setting html meta",
-  "main": "dist/Meta.mjs",
+  "main": "dist/Meta.js",
   "scripts": {
-    "build": "rollup -c rollup.config.esm.js && rollup -c rollup.config.esm.bundle.js"
+    "build": "rollup -c && rollup -c rollup.config.bundle.js"
   },
   "repository": {
     "type": "git",
@@ -21,16 +21,16 @@
   },
   "homepage": "https://github.com/kasha-io/set-meta#readme",
   "dependencies": {
-    "set-open-graph": "^0.3.0"
+    "set-open-graph": "^0.4.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "eslint": "^5.16.0",
-    "eslint-config-enough": "^0.3.5",
-    "rollup": "^1.15.6",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-node-resolve": "^5.0.3"
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-enough": "^0.3.8",
+    "rollup": "^1.31.1",
+    "rollup-plugin-babel": "^4.3.3"
   },
   "babel": {
     "presets": [

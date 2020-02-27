@@ -57,9 +57,9 @@ class Meta {
         openGraph.book.tag = meta.keywords
       }
     } else {
-      const tag = openGraph.article && openGraph.article.tag
-        || openGraph.video && openGraph.video.tag
-        || openGraph.book && openGraph.book.tag
+      const tag = openGraph.article && openGraph.article.tag ||
+      openGraph.video && openGraph.video.tag ||
+      openGraph.book && openGraph.book.tag
 
       if (tag) {
         meta.keywords = tag
@@ -84,6 +84,7 @@ class Meta {
 
     if (meta.title != null) {
       document.title = meta.title
+      document.getElementsByTagName('title')[0].setAttribute('data-set-meta', '')
     }
 
     if (meta.author) {
@@ -118,7 +119,6 @@ class Meta {
   }
 
   _clear() {
-    document.title = ''
     const els = document.head.querySelectorAll('[data-set-meta]')
     els.forEach(el => el.parentNode.removeChild(el))
   }
@@ -126,7 +126,6 @@ class Meta {
 
 function insertElem(tag, attrs) {
   const el = document.createElement(tag)
-
   el.setAttribute('data-set-meta', '')
 
   for (const name in attrs) {
