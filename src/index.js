@@ -130,11 +130,12 @@ class Meta {
 
 function insertElem(tag, attrs) {
   const el = document.createElement(tag)
-  el.setAttribute('data-set-meta', '')
 
   for (const name in attrs) {
     el.setAttribute(name, attrs[name])
   }
+
+  el.setAttribute('data-set-meta', '')
 
   document.querySelector('head').appendChild(el)
 }
