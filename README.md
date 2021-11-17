@@ -65,6 +65,11 @@ meta.set({
   extraMeta: [
     { 'http-equiv': 'Status', content: '200' },
     { 'http-equiv': 'Last-Modified', content: 'Sun, 23 Jul 2017 13:30:37 GMT' }
+  ],
+
+  // extra <link> tags
+  extraLinks: [
+    { rel: 'x-app-link', href: 'https://open-in-app.example.com/page-1' }
   ]
 },
 

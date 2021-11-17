@@ -107,6 +107,10 @@ class Meta {
       meta.extraMeta.forEach(attrs => insertElem('meta', attrs))
     }
 
+    if (meta.extraLinks) {
+      meta.extraLinks.forEach(attrs => insertElem('link', attrs))
+    }
+
     (meta.locales || []).concat(meta.media || [])
       .forEach(attrs =>
         insertElem('link', Object.assign({ rel: 'alternate' }, attrs))

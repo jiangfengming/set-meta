@@ -127,6 +127,12 @@ var Meta = /*#__PURE__*/function () {
       });
     }
 
+    if (meta.extraLinks) {
+      meta.extraLinks.forEach(function (attrs) {
+        return insertElem('link', attrs);
+      });
+    }
+
     (meta.locales || []).concat(meta.media || []).forEach(function (attrs) {
       return insertElem('link', Object.assign({
         rel: 'alternate'
@@ -161,4 +167,4 @@ function insertElem(tag, attrs) {
   document.querySelector('head').appendChild(el);
 }
 
-export default Meta;
+export { Meta as default };
