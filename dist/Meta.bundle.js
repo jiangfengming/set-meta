@@ -316,12 +316,12 @@ var Meta = /*#__PURE__*/function () {
 
 function insertElem(tag, attrs) {
   var el = document.createElement(tag);
-  el.setAttribute('data-set-meta', '');
 
   for (var name in attrs) {
     el.setAttribute(name, attrs[name]);
   }
 
+  el.setAttribute('data-set-meta', '');
   document.querySelector('head').appendChild(el);
 }
 
